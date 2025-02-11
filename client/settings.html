@@ -52,6 +52,13 @@
         .settings-btn:hover {
             background: #3a8ae6;
         }
+
+        .settings-path {
+            color: #888;
+            font-size: 11px;
+            margin-top: 5px;
+            word-break: break-all;
+        }
     </style>
 </head>
 <body>
@@ -65,7 +72,9 @@
         
         <div class="settings-group">
             <div class="settings-label">Pasta de Backup</div>
-            <input type="text" class="settings-input" id="backupFolder" value="C:/Backup">
+            <div class="settings-path" id="backupPath">
+                C:/Users/[User]/Documents/BackupFicheiros
+            </div>
         </div>
         
         <button class="settings-btn" onclick="salvarConfiguracoes()">Salvar</button>
@@ -75,15 +84,44 @@
     <script>
         var csInterface = new CSInterface();
         
+        // Ao carregar a página, obtém o caminho da pasta Documentos
+        window.onload = function() {
+            csInterface.evalScript(`
+                (function() {
+                    var userFolder = Folder.userData;
+                    var documentsPath = userFolder.parent.fsName + "/Documents/BackupFicheiros";
+                    return documentsPath;
+                })()
+            `, function(path) {
+                document.getElementById('backupPath').textContent = path;
+            });
+        };
+        
         function salvarConfiguracoes() {
             var interval = document.getElementById('autoSaveInterval').value;
-            var folder = document.getElementById('backupFolder').value;
+            var backupPath = document.getElementById('backupPath').textContent;
             
-            // Por enquanto só vamos mostrar os valores
-            alert('Configurações salvas:\nIntervalo: ' + interval + '\nPasta: ' + folder);
-            
-            // Fecha a janela de configurações
-            window.close();
+            // Cria a pasta de backup se não existir
+            csInterface.evalScript(`
+                (function() {
+                    var backupFolder = new Folder("${backupPath}");
+                    if (!backupFolder.exists) {
+                        backupFolder.create();
+                    }
+                    return backupFolder.exists;
+                })()
+            `, function(exists) {
+                if (exists) {
+                    // Salva as configurações
+                    localStorage.setItem('bids_settings', JSON.stringify({
+                        interval: interval,
+                        backupPath: backupPath
+                    }));
+                    window.close();
+                } else {
+                    alert('Erro ao criar pasta de backup!');
+                }
+            });
         }
     </script>
 </body>
