@@ -78,3 +78,73 @@ button:active {
 #settingsBtn:hover {
     background-color: rgba(75, 155, 255, 0.1);
 }
+
+/* Novos estilos da header e save info */
+.header-bar {
+    background: #2d6011;
+    background: linear-gradient(90deg, 
+        #2d6011 0%,
+        #4a9c1c 40%,
+        #58b521 85%,
+        #62c724 100%
+    );
+    height: 22px;
+    position: relative;
+    margin-bottom: 8px;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.15);
+    text-align: center;
+}
+
+.section-title {
+    color: #fff;
+    font-size: 12px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+    white-space: nowrap;
+}
+
+.save-info {
+    margin-bottom: 15px;
+    background-color: #2a2a2a;
+    padding: 8px 10px;
+    border-radius: 3px;
+}
+
+.save-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.save-label {
+    color: #888;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.save-times {
+    display: flex;
+    justify-content: space-between;
+    font-family: monospace;
+    color: #fff;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+
+.save-status {
+    color: #888;
+    font-size: 11px;
+    text-align: center;
+    font-style: italic;
+}
+
+.separator {
+    height: 1px;
+    background-color: #3a3a3a;
+    margin: 15px 0;
+}

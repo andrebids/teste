@@ -7,6 +7,26 @@
 </head>
 <body>
     <div class="main-content">
+        <div class="header-bar">
+            <div class="section-title">Vanessa Saviour</div>
+        </div>
+        
+        <div class="save-info">
+            <div class="save-header">
+                <span class="save-label">LAST SAVE</span>
+                <span class="save-label">NEXT SAVE</span>
+            </div>
+            <div class="save-times">
+                <span>--:--:--</span>
+                <span>--:--:--</span>
+            </div>
+            <div class="save-status">
+                Document is unmodified
+            </div>
+        </div>
+
+        <div class="separator"></div>
+
         <button onclick="executarScript()">Executar Script Legenda</button>
     </div>
     
@@ -17,19 +37,5 @@
 
     <script src="CSInterface.js"></script>
     <script src="index.js"></script>
-    <script>
-        try {
-            window.onerror = function(msg, url, line) {
-                alert("Erro: " + msg + "\nLinha: " + line);
-                return true;
-            };
-
-            function reloadPlugin() {
-                location.reload();
-            }
-        } catch(e) {
-            alert(e);
-        }
-    </script>
 </body>
 </html>
