@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Bids</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-content">
+        <button onclick="executarScript()">Executar Script Legenda</button>
+    </div>
+    <button id="reloadBtn" onclick="reloadPlugin()">↻</button>
+
+    <script src="CSInterface.js"></script>
+    <script src="index.js"></script>
+    <script>
+        try {
+            window.onerror = function(msg, url, line) {
+                alert("Erro: " + msg + "\nLinha: " + line);
+                return true;
+            };
+
+            function reloadPlugin() {
+                location.reload();
+            }
+        } catch(e) {
+            alert(e);
+        }
+    </script>
+</body>
+</html>
