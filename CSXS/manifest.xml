@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ExtensionManifest Version="11.0" ExtensionBundleId="com.bids" ExtensionBundleVersion="1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ExtensionManifest Version="6.0" ExtensionBundleId="com.bids" ExtensionBundleVersion="1.0.0" ExtensionBundleName="Bids" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <ExtensionList>
-        <Extension Id="com.bids.main" Version="1.0" />
+        <Extension Id="com.bids.panel" Version="1.0" />
         <Extension Id="com.bids.settings" Version="1.0" />
     </ExtensionList>
     <ExecutionEnvironment>
         <HostList>
-            <Host Name="ILST" Version="[25.0,99.9]" />
+            <Host Name="ILST" Version="[18.0,99.9]" />
         </HostList>
         <LocaleList>
             <Locale Code="All" />
         </LocaleList>
         <RequiredRuntimeList>
-            <RequiredRuntime Name="CSXS" Version="11.0" />
+            <RequiredRuntime Name="CSXS" Version="6.0" />
         </RequiredRuntimeList>
     </ExecutionEnvironment>
     <DispatchInfoList>
-        <Extension Id="com.bids.main">
+        <Extension Id="com.bids.panel">
             <DispatchInfo>
                 <Resources>
                     <MainPath>./client/index.html</MainPath>
@@ -26,30 +26,31 @@
                 </Lifecycle>
                 <UI>
                     <Type>Panel</Type>
-                    <Menu>Bids Panel</Menu>
+                    <Menu>Bids</Menu>
                     <Geometry>
                         <Size>
-                            <Height>600</Height>
-                            <Width>400</Width>
+                            <Height>300</Height>
+                            <Width>300</Width>
                         </Size>
                     </Geometry>
                 </UI>
             </DispatchInfo>
         </Extension>
+        
         <Extension Id="com.bids.settings">
             <DispatchInfo>
                 <Resources>
                     <MainPath>./client/settings.html</MainPath>
                 </Resources>
                 <Lifecycle>
-                    <AutoVisible>true</AutoVisible>
+                    <AutoVisible>false</AutoVisible>
                 </Lifecycle>
                 <UI>
                     <Type>ModalDialog</Type>
                     <Geometry>
                         <Size>
-                            <Height>400</Height>
-                            <Width>300</Width>
+                            <Height>600</Height>
+                            <Width>450</Width>
                         </Size>
                     </Geometry>
                 </UI>
