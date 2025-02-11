@@ -43,20 +43,13 @@
     </div>
     
     <div class="bottom-buttons-left">
-        <button id="settingsBtn" onclick="openSettings()">⚙</button>
+        <button id="settingsBtn">⚙</button>
     </div>
     <div class="bottom-buttons-right">
-        <button id="reloadBtn" onclick="location.reload()">↻</button>
+        <button id="reloadBtn">↻</button>
     </div>
 
     <script src="CSInterface.js"></script>
-    <script>
-        var csInterface = new CSInterface();
-        
-        function openSettings() {
-            csInterface.requestOpenExtension("com.bids.settings");
-        }
-    </script>
     <script src="index.js"></script>
     <script src="modules/autosave/autoSave.js"></script>
 </body>

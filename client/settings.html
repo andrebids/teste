@@ -2,104 +2,27 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Autosaviour Document Settings</title>
+    <title>Autosaviour Settings</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="settings-page">
     <div class="settings-container">
-        <!-- Seção Autosaving -->
         <div class="settings-section">
             <div class="settings-section-title">Autosaving</div>
             
             <div class="settings-row">
-                <input type="checkbox" id="enableAutoSave" class="settings-checkbox">
-                <label for="enableAutoSave" class="settings-label">Enable Autosave/Remind</label>
-            </div>
-
-            <div class="settings-row" style="margin-left: 25px;">
-                <label class="settings-label">Every:</label>
+                <label class="settings-label">Save every:</label>
                 <input type="number" id="autoSaveInterval" class="settings-input" value="10" min="1">
-                <label class="settings-label">minutes</label>
-            </div>
-
-            <div class="settings-row">
-                <input type="radio" id="autoSaveOption" name="saveType" class="settings-radio" checked>
-                <label for="autoSaveOption" class="settings-label">Autosave</label>
-            </div>
-            
-            <div class="settings-row" style="margin-left: 25px;">
-                <input type="checkbox" id="waitForChange" class="settings-checkbox">
-                <label for="waitForChange" class="settings-label">Wait for</label>
-                <input type="number" id="waitSeconds" class="settings-input" value="5" min="1">
-                <label class="settings-label">seconds After I Make a Change</label>
-            </div>
-
-            <div class="settings-row">
-                <input type="radio" id="remindOption" name="saveType" class="settings-radio">
-                <label for="remindOption" class="settings-label">Just Remind Me</label>
+                <span class="settings-label">minutes</span>
             </div>
         </div>
 
-        <!-- Seção Backups -->
-        <div class="settings-section">
-            <div class="settings-section-title">Backups</div>
-            
-            <div class="settings-row">
-                <input type="checkbox" id="enableBackup" class="settings-checkbox">
-                <label for="enableBackup" class="settings-label">Backup Previous Version(sa)</label>
-            </div>
-
-            <div class="settings-row">
-                <label class="settings-label">Location:</label>
-            </div>
-
-            <div class="settings-row">
-                <input type="radio" id="sameFolderLocation" name="backupLocation" class="settings-radio" checked>
-                <label for="sameFolderLocation" class="settings-label">Same Folder as Original</label>
-            </div>
-
-            <div class="settings-row">
-                <input type="radio" id="customLocation" name="backupLocation" class="settings-radio">
-                <label for="customLocation" class="settings-label">Custom Location:</label>
-            </div>
-
-            <div class="settings-row">
-                <label class="settings-label">Keep</label>
-                <input type="number" id="keepVersions" class="settings-input" value="3" min="1">
-                <label class="settings-label">Previous Versions</label>
-            </div>
-        </div>
-
-        <!-- Botões -->
         <div class="settings-footer">
-            <button class="settings-help">?</button>
-            <button class="settings-ok" onclick="salvarConfiguracoes()">OK</button>
+            <button class="settings-ok" onclick="saveSettings()">OK</button>
         </div>
     </div>
 
     <script src="CSInterface.js"></script>
-    <script>
-        var csInterface = new CSInterface();
-        
-        function salvarConfiguracoes() {
-            var settings = {
-                autoSave: {
-                    enabled: document.getElementById('enableAutoSave').checked,
-                    interval: document.getElementById('autoSaveInterval').value,
-                    type: document.getElementById('autoSaveOption').checked ? 'autosave' : 'remind',
-                    waitForChange: document.getElementById('waitForChange').checked,
-                    waitSeconds: document.getElementById('waitSeconds').value
-                },
-                backup: {
-                    enabled: document.getElementById('enableBackup').checked,
-                    location: document.getElementById('sameFolderLocation').checked ? 'same' : 'custom',
-                    keepVersions: document.getElementById('keepVersions').value
-                }
-            };
-            
-            localStorage.setItem('bids_settings', JSON.stringify(settings));
-            window.close();
-        }
-    </script>
+    <script src="modules/settings/settings.js"></script>
 </body>
 </html>
