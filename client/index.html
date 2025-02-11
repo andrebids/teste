@@ -17,10 +17,16 @@
                 <span class="save-label">NEXT SAVE</span>
             </div>
             <div class="save-times">
-                <span>--:--:--</span>
-                <span>--:--:--</span>
+                <div class="save-time-column">
+                    <span id="lastSaveTime">--:--:--</span>
+                    <span id="lastSaveDate" class="save-date">--/--/--</span>
+                </div>
+                <div class="save-time-column">
+                    <span id="nextSaveTime">--:--:--</span>
+                    <span id="nextSaveDate" class="save-date">--/--/--</span>
+                </div>
             </div>
-            <div class="save-status">
+            <div class="save-status" id="saveStatus">
                 Document is unmodified
             </div>
         </div>
@@ -43,5 +49,6 @@
 
     <script src="CSInterface.js"></script>
     <script src="index.js"></script>
+    <script src="modules/autosave/autoSave.js"></script>
 </body>
 </html>

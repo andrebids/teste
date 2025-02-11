@@ -128,10 +128,24 @@ button:active {
 .save-times {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.save-time-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.save-time-column span {
     font-family: monospace;
     color: #fff;
-    font-size: 14px;
-    margin-bottom: 6px;
+}
+
+.save-date {
+    font-size: 11px;
+    color: #888 !important;
+    margin-top: 2px;
 }
 
 .save-status {

@@ -60,15 +60,58 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('nextSaveTime').textContent = formatTime(nextSave);
     }
 
+    function checkLastSaveTime() {
+        try {
+            csInterface.evalScript(`
+                function getLastSaveTime() {
+                    if (app.documents.length > 0) {
+                        var currentDoc = app.activeDocument;
+                        if (currentDoc.saved) {
+                            var fileObj = new File(currentDoc.fullName);
+                            return fileObj.modified.getTime();
+                        }
+                    }
+                    return null;
+                }
+                getLastSaveTime();
+            `, function(result) {
+                if (result && result !== 'null') {
+                    var lastSaveDate = new Date(parseInt(result));
+                    document.getElementById('lastSaveTime').textContent = formatTime(lastSaveDate);
+                    document.getElementById('lastSaveDate').textContent = formatDate(lastSaveDate);
+                } else {
+                    document.getElementById('lastSaveTime').textContent = '--:--:--';
+                    document.getElementById('lastSaveDate').textContent = '--/--/--';
+                }
+            });
+        } catch (e) {
+            console.error('Erro ao verificar última gravação:', e);
+            document.getElementById('lastSaveTime').textContent = '--:--:--';
+            document.getElementById('lastSaveDate').textContent = '--/--/--';
+        }
+    }
+
     function formatTime(date) {
         return padNumber(date.getHours()) + ':' + 
                padNumber(date.getMinutes()) + ':' + 
                padNumber(date.getSeconds());
     }
 
+    function formatDate(date) {
+        return padNumber(date.getDate()) + '/' + 
+               padNumber(date.getMonth() + 1) + '/' + 
+               date.getFullYear();
+    }
+
     function padNumber(num) {
         return num.toString().padStart(2, '0');
     }
+
+    // Verifica a cada 30 segundos
+    setInterval(checkLastSaveTime, 30000);
+    
+    // Verifica imediatamente ao carregar
+    checkLastSaveTime();
 
     // Inicialização
     updateTimers();
