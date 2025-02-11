@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Settings</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .settings-container {
+            padding: 20px;
+        }
+        
+        .settings-title {
+            color: #fff;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .settings-group {
+            margin-bottom: 15px;
+        }
+        
+        .settings-label {
+            color: #ccc;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        
+        .settings-input {
+            width: 100%;
+            background: #3a3a3a;
+            border: 1px solid #4a4a4a;
+            color: #fff;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        
+        .settings-input:focus {
+            border-color: #4B9BFF;
+            outline: none;
+        }
+        
+        .settings-btn {
+            background: #4B9BFF;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .settings-btn:hover {
+            background: #3a8ae6;
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-container">
+        <h2 class="settings-title">Configurações</h2>
+        
+        <div class="settings-group">
+            <div class="settings-label">Intervalo de Auto-save (minutos)</div>
+            <input type="number" class="settings-input" id="autoSaveInterval" value="5" min="1">
+        </div>
+        
+        <div class="settings-group">
+            <div class="settings-label">Pasta de Backup</div>
+            <input type="text" class="settings-input" id="backupFolder" value="C:/Backup">
+        </div>
+        
+        <button class="settings-btn" onclick="salvarConfiguracoes()">Salvar</button>
+    </div>
+
+    <script src="CSInterface.js"></script>
+    <script>
+        var csInterface = new CSInterface();
+        
+        function salvarConfiguracoes() {
+            var interval = document.getElementById('autoSaveInterval').value;
+            var folder = document.getElementById('backupFolder').value;
+            
+            // Por enquanto só vamos mostrar os valores
+            alert('Configurações salvas:\nIntervalo: ' + interval + '\nPasta: ' + folder);
+            
+            // Fecha a janela de configurações
+            window.close();
+        }
+    </script>
+</body>
+</html>

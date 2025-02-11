@@ -42,25 +42,39 @@ button:active {
     background-color: #2a2a2a;
 }
 
-#reloadBtn {
-    background-color: #2a2a2a;
-    color: #FF4B4B;
-    border-color: #3a3a3a;
-    font-size: 16px;
-    width: 24px;
-    height: 24px;
+.bottom-buttons {
     position: absolute;
     bottom: 5px;
+    left: 5px;
     right: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#settingsBtn, #reloadBtn {
+    width: 24px;
+    height: 24px;
     padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    font-size: 14px;
+}
+
+#settingsBtn {
+    color: #4B9BFF;
+}
+
+#reloadBtn {
+    color: #FF4B4B;
+    border-color: #FF4B4B;
 }
 
 #reloadBtn:hover {
-    border-color: #FF4B4B;
-    background-color: #323232;
-    transform: rotate(180deg);
+    background-color: rgba(255, 75, 75, 0.1);
+}
+
+#settingsBtn:hover {
+    background-color: rgba(75, 155, 255, 0.1);
 }

@@ -1,0 +1,159 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #323232;
+    color: #ffffff;
+    font-family: 'Adobe Clean', Arial, sans-serif;
+}
+
+.header {
+    background-color: #66B82A;
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.crown-icon {
+    font-size: 18px;
+}
+
+.help-icon {
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.main-content {
+    padding: 15px;
+}
+
+.save-times {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.time-block {
+    text-align: center;
+}
+
+.time-label {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 5px;
+}
+
+.time-value {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.status-message {
+    text-align: center;
+    color: #999;
+    margin: 15px 0;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #444;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.control-btn, .settings-btn {
+    background-color: #444;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 13px;
+}
+
+.control-btn:hover, .settings-btn:hover {
+    background-color: #555;
+}
+
+.settings-btn {
+    background-color: #3a3a3a;
+    text-align: center;
+}
+
+.reload-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: 1px solid #FF4B4B;
+    color: #FF4B4B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.reload-btn:hover {
+    background-color: rgba(255, 75, 75, 0.1);
+}
+
+.hidden {
+    display: none;
+}
+
+.autosave-settings {
+    background-color: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    padding: 15px;
+    margin-top: 10px;
+    border-radius: 3px;
+}
+
+.setting-item {
+    margin-bottom: 15px;
+}
+
+.setting-item label {
+    display: block;
+    margin-bottom: 5px;
+    color: #4B9BFF;
+    font-size: 12px;
+}
+
+.setting-item input {
+    background-color: #323232;
+    border: 1px solid #3a3a3a;
+    color: #ffffff;
+    padding: 5px;
+    border-radius: 3px;
+    width: 60px;
+}
+
+.save-settings {
+    background-color: #4B9BFF;
+    color: #ffffff;
+}
+
+.script-btn {
+    background-color: #4B9BFF;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 13px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.script-btn:hover {
+    background-color: #3a8ae6;
+}

@@ -1,38 +1,54 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<ExtensionManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ExtensionBundleId="com.bids.plugin" ExtensionBundleVersion="1.0.0" Version="11.0">
-    <Author>
-        <![CDATA[Bids]]>
-    </Author>
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionManifest Version="11.0" ExtensionBundleId="com.bids" ExtensionBundleVersion="1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <ExtensionList>
-        <Extension Id="com.bids.plugin.painel" Version="1.0.0"/>
+        <Extension Id="com.bids.main" Version="1.0" />
+        <Extension Id="com.bids.settings" Version="1.0" />
     </ExtensionList>
     <ExecutionEnvironment>
         <HostList>
-            <Host Name="ILST" Version="27.0"/>
+            <Host Name="ILST" Version="[25.0,99.9]" />
         </HostList>
         <LocaleList>
-            <Locale Code="All"/>
+            <Locale Code="All" />
         </LocaleList>
         <RequiredRuntimeList>
-            <RequiredRuntime Name="CSXS" Version="11.0"/>
+            <RequiredRuntime Name="CSXS" Version="11.0" />
         </RequiredRuntimeList>
     </ExecutionEnvironment>
     <DispatchInfoList>
-        <Extension Id="com.bids.plugin.painel">
+        <Extension Id="com.bids.main">
             <DispatchInfo>
                 <Resources>
                     <MainPath>./client/index.html</MainPath>
-                    <ScriptPath>./host/index.jsx</ScriptPath>
                 </Resources>
                 <Lifecycle>
                     <AutoVisible>true</AutoVisible>
                 </Lifecycle>
                 <UI>
                     <Type>Panel</Type>
-                    <Menu>Bids</Menu>
+                    <Menu>Bids Panel</Menu>
                     <Geometry>
                         <Size>
-                            <Height>300</Height>
+                            <Height>600</Height>
+                            <Width>400</Width>
+                        </Size>
+                    </Geometry>
+                </UI>
+            </DispatchInfo>
+        </Extension>
+        <Extension Id="com.bids.settings">
+            <DispatchInfo>
+                <Resources>
+                    <MainPath>./client/settings.html</MainPath>
+                </Resources>
+                <Lifecycle>
+                    <AutoVisible>true</AutoVisible>
+                </Lifecycle>
+                <UI>
+                    <Type>ModalDialog</Type>
+                    <Geometry>
+                        <Size>
+                            <Height>400</Height>
                             <Width>300</Width>
                         </Size>
                     </Geometry>
