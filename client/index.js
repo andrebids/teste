@@ -6,8 +6,12 @@ function init() {
 
 function executarScript() {
     try {
-        var scriptPath = csInterface.getSystemPath(SystemPath.EXTENSION) + "/jsx/script.jsx";
-        csInterface.evalScript('$.evalFile("' + scriptPath + '")');
+        var scriptPath = 'C:/Program Files/Adobe/Adobe Illustrator 2025/Presets/en_GB/Scripts/Legenda/script.jsx';
+        csInterface.evalScript('$.evalFile("' + scriptPath + '")', function(result) {
+            if (result === 'EvalScript error.') {
+                alert('Erro ao executar o script. Verifique se o caminho está correto.');
+            }
+        });
     } catch (e) {
         alert('Erro ao executar script: ' + e.message);
     }

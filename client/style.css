@@ -27,10 +27,8 @@ button {
     cursor: pointer;
     font-size: 12px;
     margin: 4px 0;
-    width: 100%;
     transition: all 0.2s ease;
     font-family: 'Adobe Clean', Arial, sans-serif;
-    text-align: left;
 }
 
 button:hover {
@@ -147,4 +145,57 @@ button:active {
     height: 1px;
     background-color: #3a3a3a;
     margin: 15px 0;
+}
+
+.shortcuts-section {
+    margin-top: 10px;
+}
+
+.section-subtitle {
+    color: #4B9BFF;
+    font-size: 11px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.shortcuts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+}
+
+.shortcut-btn {
+    background-color: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 4px;
+    padding: 6px 10px;
+    color: #e8e8e8;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    min-height: unset;
+    font-size: 11px;
+}
+
+.shortcut-btn:hover {
+    background-color: #323232;
+    border-color: #4B9BFF;
+    transform: translateY(-1px);
+}
+
+.shortcut-btn:active {
+    transform: translateY(0);
+    background-color: #252525;
+}
+
+.shortcut-icon {
+    font-size: 20px;
+    margin-bottom: 6px;
+}
+
+.shortcut-text {
+    font-size: 11px;
+    color: #e8e8e8;
 }
