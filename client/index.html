@@ -18,11 +18,11 @@
             </div>
             <div class="save-times">
                 <div class="save-time-column">
-                    <span id="lastSaveTime">--:--:--</span>
+                    <span id="lastSaveTime" class="save-time">--:--:--</span>
                     <span id="lastSaveDate" class="save-date">--/--/--</span>
                 </div>
                 <div class="save-time-column">
-                    <span id="nextSaveTime">--:--:--</span>
+                    <span id="nextSaveTime" class="save-time">--:--:--</span>
                     <span id="nextSaveDate" class="save-date">--/--/--</span>
                 </div>
             </div>
@@ -37,7 +37,6 @@
             <div class="section-subtitle">ATALHOS</div>
             <div class="shortcuts-grid">
                 <button class="shortcut-btn" onclick="executarScript()">Legenda</button>
-                <!-- Mais botões podem ser adicionados aqui -->
             </div>
         </div>
     </div>
@@ -50,6 +49,7 @@
     </div>
 
     <script src="CSInterface.js"></script>
+    <script src="modules/settings/settings.js"></script>
     <script src="index.js"></script>
     <script src="modules/autosave/autoSave.js"></script>
 </body>
