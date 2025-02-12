@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var csInterface = new CSInterface();
         var timer = null;
         var lastSaveTime = null;
-        var currentInterval = 10; // Variável para armazenar o intervalo atual
+        var currentInterval = 10;
 
         // Função para atualizar status com timestamp
         function updateStatus(message) {
@@ -182,13 +182,47 @@ document.addEventListener('DOMContentLoaded', function() {
             return num.toString().padStart(2, '0');
         }
 
-        // Verificações periódicas
-        setInterval(checkLastSaveTime, 30000);
-        setInterval(updateNextSave, 60000);
+        // Remover verificações periódicas do intervalo
+        // Manter apenas verificações de tempo de save
+        setInterval(checkLastSaveTime, 30000); // Verifica último save a cada 30s
+        setInterval(updateNextSave, 60000);    // Atualiza próximo save a cada 1min
 
-        // Verificação inicial
-        setTimeout(checkLastSaveTime, 1000);
-        updateNextSave();
+        // Atualizar intervalo apenas quando as settings forem fechadas
+        window.addEventListener('focus', function() {
+            var wasTimerRunning = timer !== null;
+            
+            getSettingsInterval(function(newInterval) {
+                if (newInterval !== currentInterval) {
+                    console.log('Intervalo atualizado de', currentInterval, 'para', newInterval, 'minutos');
+                    currentInterval = newInterval;
+                    updateStatus('Intervalo atualizado: ' + currentInterval + ' minutos');
+
+                    // Se o timer estava rodando, reinicia com novo intervalo
+                    if (wasTimerRunning) {
+                        clearInterval(timer);
+                        timer = setInterval(function() {
+                            csInterface.evalScript('app.activeDocument.save()', function(saveResult) {
+                                if (saveResult === 'true') {
+                                    checkLastSaveTime();
+                                    updateNextSave();
+                                    updateStatus('Documento salvo - Próximo save em ' + currentInterval + ' minutos');
+                                } else {
+                                    updateStatus('Erro ao salvar documento');
+                                }
+                            });
+                        }, currentInterval * 60 * 1000);
+                        updateNextSave();
+                    }
+                }
+            });
+        });
+
+        // Carregar intervalo apenas na inicialização
+        getSettingsInterval(function(interval) {
+            currentInterval = interval;
+            console.log('Intervalo inicial configurado:', currentInterval, 'minutos');
+            updateStatus('Plugin iniciado - Intervalo configurado: ' + currentInterval + ' minutos');
+        });
 
         function checkDocumentStatus() {
             csInterface.evalScript('checkDocumentStatus()', function(result) {
@@ -218,31 +252,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Erro ao atualizar tempos:', e);
             }
         }
-
-        // Atualizar intervalo quando as settings forem fechadas
-        window.addEventListener('focus', function() {
-            getSettingsInterval(function(newInterval) {
-                if (timer && newInterval !== currentInterval) {
-                    updateStatus('Intervalo atualizado: ' + newInterval + ' minutos');
-                    clearInterval(timer);
-                    timer = setInterval(function() {
-                        csInterface.evalScript('app.activeDocument.save()', function(saveResult) {
-                            if (saveResult === 'true') {
-                                checkLastSaveTime();
-                                updateNextSave();
-                                updateStatus('Documento salvo - Próximo save em ' + currentInterval + ' minutos');
-                            } else {
-                                updateStatus('Erro ao salvar documento');
-                            }
-                        });
-                    }, newInterval * 60 * 1000);
-                    updateNextSave();
-                }
-            });
-        });
-
-        // Carregar intervalo inicial
-        getSettingsInterval();
 
     } catch(e) {
         console.error('Erro na inicialização do autoSave:', e);
