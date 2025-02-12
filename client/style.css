@@ -136,21 +136,20 @@ button:active {
 .save-header {
     display: flex;
     justify-content: space-between;
-    padding: 0 10px;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
 }
 
 .save-label {
-    color: #666;
+    color: #888;
     font-size: 11px;
-    font-weight: bold;
+    text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .save-times {
     display: flex;
     justify-content: space-between;
-    padding: 0 10px;
+    margin-bottom: 6px;
 }
 
 .save-time-column {
@@ -159,25 +158,22 @@ button:active {
     align-items: center;
 }
 
-.save-time {
-    font-size: 16px;
-    font-weight: bold;
-    color: #fff;
+.save-time-column span {
     font-family: monospace;
+    color: #fff;
 }
 
 .save-date {
     font-size: 11px;
-    color: #666;
+    color: #888 !important;
     margin-top: 2px;
 }
 
 .save-status {
-    text-align: center;
-    color: #666;
+    color: #888;
     font-size: 11px;
+    text-align: center;
     font-style: italic;
-    margin-top: 5px;
 }
 
 .separator {

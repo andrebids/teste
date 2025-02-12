@@ -1,8 +1,28 @@
-var csInterface = new CSInterface();
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        var csInterface = new CSInterface();
+        console.log('Iniciando aplicação...');
 
-function init() {
-    themeManager.init();
-}
+        // Event Listeners
+        document.getElementById('settingsBtn').addEventListener('click', function() {
+            try {
+                console.log('Tentando abrir configurações...');
+                var extensionId = "com.bids.settings";
+                csInterface.requestOpenExtension(extensionId, "");
+                console.log('Requisição para abrir settings enviada');
+            } catch(e) {
+                console.error('Erro ao abrir configurações:', e);
+            }
+        });
+
+        document.getElementById('reloadBtn').addEventListener('click', function() {
+            location.reload();
+        });
+
+    } catch(e) {
+        console.error('Erro na inicialização:', e);
+    }
+});
 
 function executarScript() {
     try {
@@ -15,30 +35,4 @@ function executarScript() {
     } catch (e) {
         alert('Erro ao executar script: ' + e.message);
     }
-}
-
-// Função para abrir a janela de configurações usando CSInterface
-function abrirSettings() {
-    // Verifica se a interface está disponível
-    if (!csInterface) {
-        alert('Erro: Interface CSInterface não inicializada');
-        return;
-    }
-
-    try {
-        // Tenta abrir a janela de configurações como um diálogo modal
-        var extensionId = "com.bids.settings";
-        csInterface.requestOpenExtension(extensionId, "");
-    } catch (e) {
-        alert('Erro ao abrir configurações: ' + e.message);
-    }
-}
-
-init();
-
-var btnTestar = document.getElementById("btnTestar");
-btnTestar.onclick = function() {
-    csInterface.evalScript("testarPlugin()", function(resultado) {
-        alert(resultado);
-    });
 }

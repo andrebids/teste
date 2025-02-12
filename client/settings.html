@@ -2,27 +2,22 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Autosaviour Settings</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Settings</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
-<body class="settings-page">
+<body>
     <div class="settings-container">
-        <div class="settings-section">
-            <div class="settings-section-title">Autosaving</div>
-            
-            <div class="settings-row">
-                <label class="settings-label">Save every:</label>
-                <input type="number" id="autoSaveInterval" class="settings-input" value="10" min="1">
-                <span class="settings-label">minutes</span>
-            </div>
+        <div class="settings-group">
+            <label for="autoSaveInterval">Intervalo de Auto-Save (minutos):</label>
+            <input type="number" id="autoSaveInterval" min="1" max="60" value="10">
         </div>
-
-        <div class="settings-footer">
-            <button class="settings-ok" onclick="saveSettings()">OK</button>
+        
+        <div class="settings-buttons">
+            <button onclick="saveSettings()">Salvar</button>
         </div>
     </div>
 
-    <script src="CSInterface.js"></script>
-    <script src="modules/settings/settings.js"></script>
+    <script src="./CSInterface.js"></script>
+    <script src="./modules/settings/settings.js"></script>
 </body>
 </html>
