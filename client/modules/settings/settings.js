@@ -3,47 +3,6 @@ document.addEventListener('DOMContentLoaded', function() {
         var csInterface = new CSInterface();
         console.log('Settings iniciadas...');
 
-        // Carregar settings atuais
-        function loadSettings() {
-            var extensionPath = csInterface.getSystemPath(SystemPath.EXTENSION);
-            console.log('Caminho da extensão:', extensionPath);
-            
-            csInterface.evalScript(`
-                function getSettings() {
-                    try {
-                        var extensionPath = '${extensionPath}';
-                        var settingsFile = new File(extensionPath + '/settings.json');
-                        console.log('Tentando abrir arquivo:', extensionPath + '/settings.json');
-                        
-                        if (settingsFile.exists) {
-                            console.log('Arquivo encontrado!');
-                            settingsFile.open('r');
-                            var content = settingsFile.read();
-                            settingsFile.close();
-                            console.log('Conteúdo lido:', content);
-                            return content;
-                        } else {
-                            console.log('Arquivo não encontrado, usando valores padrão');
-                            return '{"autoSaveInterval": 10}';
-                        }
-                    } catch(e) {
-                        console.log('Erro ao ler settings:', e.message);
-                        return '{"autoSaveInterval": 10}';
-                    }
-                }
-                getSettings();
-            `, function(result) {
-                try {
-                    console.log('Resultado recebido:', result);
-                    var settings = JSON.parse(result);
-                    document.getElementById('autoSaveInterval').value = settings.autoSaveInterval || 10;
-                    console.log('Settings carregadas com sucesso');
-                } catch(e) {
-                    console.error('Erro ao processar settings:', e);
-                }
-            });
-        }
-
         // Salvar settings
         window.saveSettings = function() {
             try {
@@ -51,47 +10,108 @@ document.addEventListener('DOMContentLoaded', function() {
                 var settings = {
                     autoSaveInterval: autoSaveInterval
                 };
-                
+
                 var extensionPath = csInterface.getSystemPath(SystemPath.EXTENSION);
-                console.log('Salvando em:', extensionPath + '/settings.json');
+                console.log('Tentando salvar settings:', settings);
+                console.log('Caminho da extensão:', extensionPath);
 
                 csInterface.evalScript(`
-                    function saveSettings() {
+                    (function() {
                         try {
                             var extensionPath = '${extensionPath}';
+                            $.writeln('==== INÍCIO DO SALVAMENTO ====');
+                            $.writeln('Caminho do arquivo: ' + extensionPath + '/settings.json');
+                            
                             var settingsFile = new File(extensionPath + '/settings.json');
-                            console.log('Criando/abrindo arquivo para escrita');
-                            settingsFile.open('w');
-                            settingsFile.write('${JSON.stringify(settings)}');
+                            $.writeln('Arquivo criado');
+                            
+                            if (!settingsFile.open('w')) {
+                                throw new Error('Não foi possível abrir o arquivo');
+                            }
+                            $.writeln('Arquivo aberto para escrita');
+                            
+                            var conteudo = '${JSON.stringify(settings)}';
+                            $.writeln('Conteúdo a ser escrito: ' + conteudo);
+                            
+                            if (!settingsFile.write(conteudo)) {
+                                throw new Error('Não foi possível escrever no arquivo');
+                            }
+                            $.writeln('Conteúdo escrito com sucesso');
+                            
                             settingsFile.close();
-                            console.log('Arquivo salvo com sucesso');
-                            return true;
+                            $.writeln('Arquivo fechado');
+                            $.writeln('==== FIM DO SALVAMENTO ====');
+                            
+                            return 'success';
                         } catch(e) {
-                            console.log('Erro ao salvar:', e.message);
-                            return false;
+                            $.writeln('!!!! ERRO NO SALVAMENTO !!!!');
+                            $.writeln('Erro: ' + e.message);
+                            return 'Erro: ' + e.message;
                         }
-                    }
-                    saveSettings();
+                    })();
                 `, function(result) {
-                    console.log('Resultado do save:', result);
-                    if (result === 'true') {
-                        console.log('Settings salvas com sucesso');
+                    console.log('Resultado da operação:', result);
+                    if (result === 'success') {
+                        console.log('Settings salvas com sucesso!');
+                        alert('Configurações salvas com sucesso!');
                         window.close();
                     } else {
-                        console.error('Erro ao salvar configurações');
-                        alert('Erro ao salvar configurações');
+                        console.error('Erro ao salvar:', result);
+                        alert('Erro ao salvar configurações: ' + result);
                     }
                 });
             } catch(e) {
                 console.error('Erro ao salvar settings:', e);
-                alert('Erro ao salvar configurações: ' + e.message);
+                alert('Erro ao salvar settings: ' + e.message);
             }
         };
 
-        // Carregar settings ao abrir
+        // Carregar settings
+        function loadSettings() {
+            console.log('Iniciando carregamento das settings...');
+            csInterface.evalScript(`
+                (function() {
+                    try {
+                        var extensionPath = '${csInterface.getSystemPath(SystemPath.EXTENSION)}';
+                        $.writeln('==== INÍCIO DA LEITURA ====');
+                        $.writeln('Tentando ler de: ' + extensionPath + '/settings.json');
+                        
+                        var settingsFile = new File(extensionPath + '/settings.json');
+                        if (settingsFile.exists) {
+                            $.writeln('Arquivo encontrado');
+                            settingsFile.open('r');
+                            var content = settingsFile.read();
+                            settingsFile.close();
+                            $.writeln('Conteúdo lido: ' + content);
+                            $.writeln('==== FIM DA LEITURA ====');
+                            return content;
+                        }
+                        $.writeln('Arquivo não encontrado, usando padrão');
+                        return '{"autoSaveInterval": 10}';
+                    } catch(e) {
+                        $.writeln('!!!! ERRO NA LEITURA !!!!');
+                        $.writeln('Erro: ' + e.message);
+                        return '{"autoSaveInterval": 10}';
+                    }
+                })();
+            `, function(result) {
+                try {
+                    console.log('Settings carregadas:', result);
+                    var settings = JSON.parse(result);
+                    document.getElementById('autoSaveInterval').value = settings.autoSaveInterval || 10;
+                    console.log('Settings aplicadas com sucesso');
+                } catch(e) {
+                    console.error('Erro ao carregar settings:', e);
+                    alert('Erro ao carregar settings: ' + e.message);
+                }
+            });
+        }
+
+        // Carregar settings ao iniciar
         loadSettings();
         
     } catch(e) {
         console.error('Erro na inicialização das settings:', e);
+        alert('Erro na inicialização das settings: ' + e.message);
     }
 });

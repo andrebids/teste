@@ -1,15 +1,9 @@
 // Função para abrir as settings via JSX
 try {
-    alert("1. Iniciando script JSX");
-    
-    // Não precisamos criar um evento aqui
     // O CEP (Common Extensibility Platform) já cuida da comunicação
-    
-    // Podemos apenas retornar sucesso
-    alert("2. Script JSX executado com sucesso");
-    
+    // Não precisamos fazer nada aqui
 } catch(e) {
-    alert("Erro no JSX: " + e);
+    console.error("Erro no JSX:", e);
 }
 
 // Funções para manipular as settings
@@ -24,20 +18,35 @@ function getSettings() {
         }
         return '{"autoSaveInterval": 10}';
     } catch(e) {
-        alert('Erro ao ler settings: ' + e);
+        console.error('Erro ao ler settings:', e);
         return '{"autoSaveInterval": 10}';
     }
 }
 
 function saveSettings(settings) {
     try {
-        var settingsFile = new File(app.path + '/settings.json');
-        settingsFile.open('w');
-        settingsFile.write(settings);
+        var extensionPath = app.path + '/settings.json';
+        $.writeln('Tentando salvar em: ' + extensionPath);
+        
+        var settingsFile = new File(extensionPath);
+        $.writeln('Arquivo criado');
+        
+        if (!settingsFile.open('w')) {
+            throw new Error('Não foi possível abrir o arquivo para escrita. Permissões?');
+        }
+        $.writeln('Arquivo aberto para escrita');
+        
+        if (!settingsFile.write(settings)) {
+            throw new Error('Não foi possível escrever no arquivo');
+        }
+        $.writeln('Conteúdo escrito');
+        
         settingsFile.close();
+        $.writeln('Arquivo fechado');
+        
         return true;
     } catch(e) {
-        alert('Erro ao salvar settings: ' + e);
+        $.writeln('Erro ao salvar settings: ' + e.message + ' em linha: ' + e.line);
         return false;
     }
 }
