@@ -25,18 +25,34 @@ document.addEventListener('DOMContentLoaded', function() {
         function getSettingsInterval(callback) {
             csInterface.evalScript(`
                 function getSettings() {
-                    var settingsFile = new File(app.path + '/Presets/en_GB/Scripts/Legenda/settings.json');
-                    if (settingsFile.exists) {
-                        settingsFile.open('r');
-                        var content = settingsFile.read();
-                        settingsFile.close();
-                        var settings = JSON.parse(content);
-                        return settings.autoSaveInterval || 10;
+                    try {
+                        var extensionPath = '${csInterface.getSystemPath(SystemPath.EXTENSION)}';
+                        $.writeln('==== LENDO INTERVALO DE AUTOSAVE ====');
+                        $.writeln('Caminho do arquivo: ' + extensionPath + '/settings.json');
+                        
+                        var settingsFile = new File(extensionPath + '/settings.json');
+                        if (settingsFile.exists) {
+                            $.writeln('Arquivo encontrado');
+                            settingsFile.open('r');
+                            var content = settingsFile.read();
+                            settingsFile.close();
+                            $.writeln('Conteúdo lido: ' + content);
+                            var settings = JSON.parse(content);
+                            var interval = settings.autoSaveInterval || 10;
+                            $.writeln('Intervalo encontrado: ' + interval + ' minutos');
+                            return interval;
+                        }
+                        $.writeln('Arquivo não encontrado, usando padrão: 10 minutos');
+                        return 10;
+                    } catch(e) {
+                        $.writeln('!!!! ERRO AO LER INTERVALO !!!!');
+                        $.writeln('Erro: ' + e.message);
+                        return 10;
                     }
-                    return 10;
                 }
                 getSettings();
             `, function(result) {
+                console.log('Intervalo de autosave carregado:', result, 'minutos');
                 callback(parseInt(result) || 10);
             });
         }
@@ -61,28 +77,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (timer) {
                     clearInterval(timer);
                     timer = null;
-                    updateStatus('Autosave disabled');
+                    updateStatus('Autosave desativado');
                 } else {
                     // Verificar se há um documento aberto antes de iniciar o autosave
                     csInterface.evalScript('app.documents.length > 0', function(result) {
                         if (result === 'true') {
                             getSettingsInterval(function(interval) {
+                                updateStatus('Iniciando autosave com intervalo de ' + interval + ' minutos');
+                                console.log('Intervalo definido para:', interval, 'minutos');
+                                
                                 timer = setInterval(function() {
                                     csInterface.evalScript('app.activeDocument.save()', function(saveResult) {
                                         if (saveResult === 'true') {
                                             checkLastSaveTime();
                                             updateNextSave();
-                                            updateStatus('Document saved');
+                                            var now = new Date();
+                                            updateStatus('Documento salvo às ' + 
+                                                now.getHours() + ':' + 
+                                                padNumber(now.getMinutes()) + ':' + 
+                                                padNumber(now.getSeconds()));
                                         } else {
-                                            updateStatus('Error saving document');
+                                            updateStatus('Erro ao salvar documento');
                                         }
                                     });
                                 }, interval * 60 * 1000);
-                                updateStatus('Autosave enabled');
+                                
+                                updateStatus('Autosave ativado - Próximo save em ' + interval + ' minutos');
                                 updateNextSave();
                             });
                         } else {
-                            updateStatus('No document open');
+                            updateStatus('Nenhum documento aberto');
                         }
                     });
                 }
