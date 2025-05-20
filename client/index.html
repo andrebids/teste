@@ -16,6 +16,7 @@
             <div class="section-subtitle">FERRAMENTAS</div>
             <div class="tools-grid">
                 <button class="tool-btn" onclick="executarScript()">Importar Arco</button>
+                <button class="tool-btn" onclick="adicionarTextoPrompt()">Adicionar Texto</button>
             </div>
         </div>
     </div>
@@ -56,12 +57,27 @@
         csInterface.evalScript('$.evalFile("' + extensionRoot + '/jsx/importarFormaBase.jsx")', function(result) {
             logMsg('importarFormaBase.jsx carregado!');
         });
+        csInterface.evalScript('$.evalFile("' + extensionRoot + '/jsx/adicionarTexto.jsx")', function(result) {
+            logMsg('adicionarTexto.jsx carregado!');
+        });
 
         function executarScript() {
             logMsg('A executar importarFormaBase...');
             csInterface.evalScript('importarFormaBase()', function(result) {
                 logMsg('Resultado: ' + result);
             });
+        }
+
+        function adicionarTextoPrompt() {
+            var texto = prompt('Insira o texto a adicionar:');
+            if (texto && texto.length > 0) {
+                logMsg('A executar adicionarTextoNoIllustrator...');
+                csInterface.evalScript('adicionarTextoNoIllustrator("' + texto.replace(/"/g, '\\"') + '")', function(result) {
+                    logMsg('Resultado: ' + result);
+                });
+            } else {
+                logMsg('Ação cancelada ou texto vazio.');
+            }
         }
         
         document.getElementById('refreshBtn').onclick = function() {
