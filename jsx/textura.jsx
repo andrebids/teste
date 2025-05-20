@@ -46,5 +46,14 @@ function adicionarTextura() {
     }
     // Garantir que a linha exterior original fica no topo
     sel.zOrder(ZOrderMethod.BRINGTOFRONT);
+    // Garantir que o grupo dos I_OUTLINES (se existir) também fica no topo
+    if (sel.typename === 'GroupItem') {
+        for (var i = 0; i < sel.pageItems.length; i++) {
+            var item = sel.pageItems[i];
+            if (item.typename === 'GroupItem' && item.name === 'I_OUTLINES') {
+                item.zOrder(ZOrderMethod.BRINGTOFRONT);
+            }
+        }
+    }
     return 'Textura aplicada!';
 } 

@@ -37,13 +37,13 @@ function adicionarTextoNoIllustrator(texto) {
                 'AV': true, 'VA': true, 'AW': true, 'WA': true, 'FA': true, 'AF': true,
                 'LT': true, 'TL': true, 'LA': true, 'AL': true, 'LV': true, 'VL': true,
                 'LY': true, 'YL': true, 'TT': true, 'RT': true, 'TR': true, 'CT': true,
-                'TC': true, 'IT': true, 'TI': true, 'IC': true, 'IL': true, 'LI': true,
+                'TC': true, 'IT': true, 'IC': true, 'IL': true, 'LI': true,
                 'IE': true, 'EI': true, 'CA': true, 'AC': true, 'CL': true, 'LC': true,
                 'LO': true, 'OL': true, 'LE': true, 'EL': true, 'NO': true, 'ON': true,
                 'NA': true, 'AN': true, 'NE': true, 'EN': true, 'RI': true, 'IR': true,
                 'RA': true, 'AR': true, 'RO': true, 'OR': true, 'OA': true, 'AO': true,
                 'OP': true, 'PO': true, 'PA': true, 'AP': true, 'PE': true, 'EP': true,
-                'PI': true, 'IP': true, 'TO': true, 'OT': true, 'TI': true, 'TE': true, 'ET': true
+                'PI': true, 'IP': true, 'TO': true, 'OT': true, 'TE': true, 'ET': true
             };
             // Overlaps personalizados por par
             var overlapsEspeciais = {
@@ -59,7 +59,11 @@ function adicionarTextoNoIllustrator(texto) {
                 'IL': -0,
                 'LI': -0,
                 'DI': -2,
-                'DA': -6
+                'DA': -6,
+                'RS': -2,
+                'IE': -0,
+                'HE': -1,
+                'TI': -0
                 // Adiciona aqui outros pares conforme necessário
             };
             // Ordenar as letras da esquerda para a direita
@@ -123,6 +127,48 @@ function adicionarTextoNoIllustrator(texto) {
         if (alturaAtual > 0) {
             var fator = alturaDesejada / alturaAtual;
             grupo.resize(fator * 100, fator * 100); // resize espera percentagem
+        }
+        // --- Adicional: criar outlines coloridos para cada 'I' num grupo especial ---
+        var letrasParaI = [];
+        for (var i = 0; i < grupo.pageItems.length; i++) {
+            letrasParaI.push(grupo.pageItems[i]);
+        }
+        // Ordenar as letras da esquerda para a direita
+        for (var i = 0; i < letrasParaI.length - 1; i++) {
+            for (var j = i + 1; j < letrasParaI.length; j++) {
+                if (letrasParaI[j].visibleBounds[0] < letrasParaI[i].visibleBounds[0]) {
+                    var temp = letrasParaI[i];
+                    letrasParaI[i] = letrasParaI[j];
+                    letrasParaI[j] = temp;
+                }
+            }
+        }
+        var retangulosI = [];
+        for (var i = 0; i < letrasParaI.length; i++) {
+            var letraOriginal = textoFinal.charAt(i);
+            if (letraOriginal === 'I' || letraOriginal === 'Í' || letraOriginal === 'Ì' || letraOriginal === 'Î' || letraOriginal === 'Ï') {
+                var vb = letrasParaI[i].visibleBounds;
+                var rect = doc.pathItems.rectangle(vb[1], vb[0], vb[2] - vb[0], vb[1] - vb[3]);
+                rect.stroked = true;
+                // Stroke preto igual à linha exterior
+                var cor = new RGBColor();
+                cor.red = 73;
+                cor.green = 73;
+                cor.blue = 73;
+                rect.strokeColor = cor;
+                rect.strokeWidth = 19.843;
+                rect.filled = false;
+                retangulosI.push(rect);
+            }
+        }
+        // Criar grupo especial para os retângulos dos I
+        var grupoI = null;
+        if (retangulosI.length > 0) {
+            grupoI = doc.groupItems.add();
+            grupoI.name = 'I_OUTLINES';
+            for (var i = 0; i < retangulosI.length; i++) {
+                retangulosI[i].move(grupoI, ElementPlacement.PLACEATEND);
+            }
         }
         return 'Texto adicionado, expandido e letras coladas automaticamente!';
     } catch(e) {
