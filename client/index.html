@@ -15,18 +15,52 @@
         <div class="content-section">
             <div class="section-subtitle">FERRAMENTAS</div>
             <div class="tools-grid">
-                <button class="tool-btn" onclick="executarScript()">Buscar Forma Base</button>
+                <button class="tool-btn" onclick="executarScript()">Importar Arco</button>
             </div>
         </div>
     </div>
 
+    <div id="logConsole"></div>
+
+    <style>
+    #logConsole {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 80px;
+        background: #222;
+        color: #0f0;
+        font-size: 12px;
+        padding: 5px;
+        overflow-y: auto;
+        z-index: 9999;
+        border-top: 1px solid #444;
+    }
+    </style>
+
     <script src="CSInterface.js"></script>
     <script>
         var csInterface = new CSInterface();
-        
+        var extensionRoot = csInterface.getSystemPath("extension");
+
+        function logMsg(msg) {
+            var logDiv = document.getElementById('logConsole');
+            if (logDiv) {
+                logDiv.innerHTML += new Date().toLocaleTimeString() + ': ' + msg + '<br>';
+                logDiv.scrollTop = logDiv.scrollHeight;
+            }
+        }
+
+        // Carregar o ficheiro de funções ao iniciar o painel (apenas uma vez)
+        csInterface.evalScript('$.evalFile("' + extensionRoot + '/jsx/importarFormaBase.jsx")', function(result) {
+            logMsg('importarFormaBase.jsx carregado!');
+        });
+
         function executarScript() {
-            csInterface.evalScript('$.runScript()', function(result) {
-                console.log(result);
+            logMsg('A executar importarFormaBase...');
+            csInterface.evalScript('importarFormaBase()', function(result) {
+                logMsg('Resultado: ' + result);
             });
         }
         

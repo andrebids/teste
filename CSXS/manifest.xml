@@ -30,8 +30,8 @@
                     <Menu>Cartas Postais</Menu>
                     <Geometry>
                         <Size>
-                            <Height>300</Height>
-                            <Width>250</Width>
+                            <Height>600</Height>
+                            <Width>400</Width>
                         </Size>
                     </Geometry>
                 </UI>
