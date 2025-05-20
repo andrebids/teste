@@ -63,6 +63,7 @@ function adicionarTextoNoIllustrator(texto) {
                 'RS': -2,
                 'IE': -0,
                 'HE': -1,
+                'ND': -1,
                 'TI': -0
                 // Adiciona aqui outros pares conforme necessário
             };
