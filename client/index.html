@@ -2,128 +2,37 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Bids</title>
+    <title>Cartas Postais</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .debug-console {
-            position: absolute;
-            bottom: 40px;
-            left: 0;
-            right: 0;
-            height: 80px;
-            background: rgba(26, 26, 26, 0.95);
-            border-top: 1px solid #333;
-            overflow-y: auto;
-            font-family: monospace;
-            font-size: 11px;
-            padding: 5px;
-            color: #00ff00;
-            z-index: 998;
-        }
-        
-        .debug-message {
-            margin: 2px 0;
-            word-wrap: break-word;
-        }
-        
-        .debug-error { color: #ff4444; }
-        .debug-warning { color: #ffaa00; }
-        .debug-success { color: #44ff44; }
-    </style>
 </head>
 <body>
     <div class="main-content">
         <div class="header-bar">
-            <div class="section-title">Vanessa Saviour</div>
+            <div class="section-title">Cartas Postais</div>
+            <button id="refreshBtn" style="position:absolute;top:8px;right:8px;z-index:10;" title="Recarregar">↻</button>
         </div>
         
-        <div class="save-info">
-            <div class="save-header">
-                <span class="save-label">LAST SAVE</span>
-                <span class="save-label">NEXT SAVE</span>
-            </div>
-            <div class="save-times">
-                <div class="save-time-column">
-                    <span id="lastSaveTime">--:--:--</span>
-                    <span id="lastSaveDate" class="save-date">--/--/--</span>
-                </div>
-                <div class="save-time-column">
-                    <span id="nextSaveTime">--:--:--</span>
-                    <span id="nextSaveDate" class="save-date">--/--/--</span>
-                </div>
-            </div>
-            <div class="save-status" id="saveStatus">
-                Document is unmodified
+        <div class="content-section">
+            <div class="section-subtitle">FERRAMENTAS</div>
+            <div class="tools-grid">
+                <button class="tool-btn" onclick="executarScript()">Buscar Forma Base</button>
             </div>
         </div>
-
-        <div class="separator"></div>
-
-        <div class="shortcuts-section">
-            <div class="section-subtitle">ATALHOS</div>
-            <div class="shortcuts-grid">
-                <button class="shortcut-btn" onclick="executarScript()">Legenda</button>
-                <!-- Mais botões podem ser adicionados aqui -->
-            </div>
-        </div>
-    </div>
-    
-    <!-- Console de Debug -->
-    <div class="debug-console" id="debugConsole"></div>
-    
-    <div class="bottom-buttons-left">
-        <button id="settingsBtn">⚙</button>
-    </div>
-    <div class="bottom-buttons-right">
-        <button id="reloadBtn">↻</button>
     </div>
 
     <script src="CSInterface.js"></script>
     <script>
-        function debugLog(message, type = 'info', file = '') {
-            var console = document.getElementById('debugConsole');
-            var msg = document.createElement('div');
-            msg.className = 'debug-message debug-' + type;
-            
-            var fileInfo = file ? ' [' + file + '] ' : ' ';
-            msg.textContent = new Date().toLocaleTimeString() + fileInfo + '- ' + message;
-            
-            console.appendChild(msg);
-            console.scrollTop = console.scrollHeight;
+        var csInterface = new CSInterface();
+        
+        function executarScript() {
+            csInterface.evalScript('$.runScript()', function(result) {
+                console.log(result);
+            });
         }
         
-        var originalConsoleLog = console.log;
-        var originalConsoleError = console.error;
-        
-        console.log = function(msg) {
-            var error = new Error();
-            var stack = error.stack || '';
-            var match = stack.match(/\((.*):\d+:\d+\)/);
-            var file = match ? match[1].split('/').pop() : '';
-            
-            debugLog(msg, 'info', file);
-            originalConsoleLog.apply(console, arguments);
+        document.getElementById('refreshBtn').onclick = function() {
+            location.reload();
         };
-        
-        console.error = function(msg) {
-            var error = new Error();
-            var stack = error.stack || '';
-            var match = stack.match(/\((.*):\d+:\d+\)/);
-            var file = match ? match[1].split('/').pop() : '';
-            
-            debugLog(msg, 'error', file);
-            originalConsoleError.apply(console, arguments);
-        };
-        
-        window.onerror = function(msg, url, line, col, error) {
-            var file = url.split('/').pop();
-            debugLog('Error: ' + msg + ' (Line: ' + line + ')', 'error', file);
-            return false;
-        };
-        
-        var csInterface = new CSInterface();
     </script>
-    <script src="index.js"></script>
-    <script src="modules/autosave/autoSave.js"></script>
 </body>
 </html>

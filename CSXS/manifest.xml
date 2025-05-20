@@ -1,63 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ExtensionManifest Version="11.0" ExtensionBundleId="com.bids" ExtensionBundleVersion="1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ExtensionManifest Version="6.0" ExtensionBundleId="com.cartas.postais" ExtensionBundleVersion="1.0.0"
+    ExtensionBundleName="Cartas Postais" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <ExtensionList>
-        <Extension Id="com.bids.main" Version="1.0.0" />
-        <Extension Id="com.bids.settings" Version="1.0.0" />
+        <Extension Id="com.cartas.postais" Version="1.0.0" />
     </ExtensionList>
     <ExecutionEnvironment>
         <HostList>
-            <Host Name="ILST" Version="[24.0,99.9]" />
+            <Host Name="ILST" Version="[15.0,99.9]" />
         </HostList>
         <LocaleList>
             <Locale Code="All" />
         </LocaleList>
         <RequiredRuntimeList>
-            <RequiredRuntime Name="CSXS" Version="11.0" />
+            <RequiredRuntime Name="CSXS" Version="6.0" />
         </RequiredRuntimeList>
     </ExecutionEnvironment>
     <DispatchInfoList>
-        <Extension Id="com.bids.main">
+        <Extension Id="com.cartas.postais">
             <DispatchInfo>
                 <Resources>
                     <MainPath>./client/index.html</MainPath>
-                    <ScriptPath>./host/index.jsx</ScriptPath>
-                    <CEFCommandLine>
-                        <Parameter>--enable-nodejs</Parameter>
-                        <Parameter>--mixed-context</Parameter>
-                    </CEFCommandLine>
+                    <ScriptPath>./jsx/main.jsx</ScriptPath>
                 </Resources>
                 <Lifecycle>
                     <AutoVisible>true</AutoVisible>
                 </Lifecycle>
                 <UI>
                     <Type>Panel</Type>
-                    <Menu>Bids Panel</Menu>
+                    <Menu>Cartas Postais</Menu>
                     <Geometry>
                         <Size>
-                            <Height>600</Height>
-                            <Width>300</Width>
-                        </Size>
-                    </Geometry>
-                </UI>
-            </DispatchInfo>
-        </Extension>
-        
-        <Extension Id="com.bids.settings">
-            <DispatchInfo>
-                <Resources>
-            <MainPath>./client/settings.html</MainPath>
-            <ScriptPath>./jsx/settings.jsx</ScriptPath>
-                </Resources>
-                <Lifecycle>
-                    <AutoVisible>true</AutoVisible>
-                </Lifecycle>
-                <UI>
-                    <Type>ModalDialog</Type>
-                    <Menu>Settings</Menu>
-                    <Geometry>
-                        <Size>
-                            <Height>200</Height>
-                            <Width>300</Width>
+                            <Height>300</Height>
+                            <Width>250</Width>
                         </Size>
                     </Geometry>
                 </UI>
