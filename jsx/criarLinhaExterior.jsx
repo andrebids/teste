@@ -13,11 +13,11 @@ function criarLinhaExterior() {
         alert('Selecione um grupo de paths (texto expandido)!');
         return 'Seleção inválida';
     }
-    // Cor preta para o stroke
-    var corPreta = new RGBColor();
-    corPreta.red = 0;
-    corPreta.green = 0;
-    corPreta.blue = 0;
+    // Cor #494949 para o stroke
+    var corTextura = new RGBColor();
+    corTextura.red = 73;
+    corTextura.green = 73;
+    corTextura.blue = 73;
     // Duplicar o grupo para não destruir o original
     var grupo = sel.duplicate();
     grupo.selected = true;
@@ -55,8 +55,8 @@ function criarLinhaExterior() {
         if (obj.typename === 'PathItem') {
             obj.filled = false;
             obj.stroked = true;
-            obj.strokeColor = corPreta;
-            obj.strokeWidth = 2;
+            obj.strokeColor = corTextura;
+            obj.strokeWidth = 19.843;
             // Não definir strokeJoin
         } else if (obj.typename === 'GroupItem') {
             for (var i = 0; i < obj.pageItems.length; i++) {
@@ -74,7 +74,7 @@ function criarLinhaExterior() {
     }
     // Mover todos os objetos da seleção final para baixo da palavra original
     var altura = sel.height;
-    var deslocamento = altura + 20;
+    var deslocamento = altura + 40;
     for (var i = 0; i < resultSel.length; i++) {
         resultSel[i].top = sel.top - deslocamento;
     }

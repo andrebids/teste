@@ -118,6 +118,12 @@ function adicionarTextoNoIllustrator(texto) {
                 }
             }
         }
+        var alturaDesejada = 1600;
+        var alturaAtual = grupo.height; // grupo = o grupo expandido
+        if (alturaAtual > 0) {
+            var fator = alturaDesejada / alturaAtual;
+            grupo.resize(fator * 100, fator * 100); // resize espera percentagem
+        }
         return 'Texto adicionado, expandido e letras coladas automaticamente!';
     } catch(e) {
         alert('Erro ao adicionar texto: ' + e);
