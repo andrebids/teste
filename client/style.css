@@ -1,9 +1,9 @@
 body {
+    background: #000000;
+    color: #fff;
+    font-family: 'Montserrat', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #2d2d2d;
-    color: #ffffff;
 }
 
 .main-content {
@@ -31,35 +31,31 @@ body {
     margin-top: 20px;
 }
 
-.section-subtitle {
-    font-size: 14px;
-    color: #888;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
 .tools-grid {
-    display: grid;
-    gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .tool-btn {
-    background-color: #4a4a4a;
+    padding: 8px 16px;
+    font-size: 13px;
+    background: #1976d2;
+    color: #fff;
     border: none;
-    color: white;
-    padding: 12px 20px;
     border-radius: 4px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 14px;
-    text-align: center;
+    transition: background 0.2s;
+    font-weight: 500;
+    margin-bottom: 8px;
+    min-width: 48px;
+    min-height: 32px;
 }
 
 .tool-btn:hover {
-    background-color: #5a5a5a;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    background: #125ea2;
 }
 
 .tool-btn:active {
@@ -344,4 +340,128 @@ button:active {
     bottom: 10px;
     right: 10px;
     z-index: 9999;
+}
+
+/* --- Abas modernas --- */
+.tabs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+    background: transparent;
+    border-bottom: none;
+    margin: 40px 0 32px 0;
+    position: relative;
+}
+.tab-btn {
+    background: none;
+    border: none;
+    outline: none;
+    padding: 0 18px 0 18px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #888;
+    position: relative;
+    cursor: pointer;
+    transition: color 0.2s;
+    height: 48px;
+    letter-spacing: 0.5px;
+}
+.tab-btn.active {
+    color: #fff;
+}
+.tab-btn.active::after {
+    content: '';
+    display: block;
+    margin: 0 auto;
+    margin-top: 8px;
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background: #fff;
+    transition: width 0.2s;
+}
+.tab-btn:not(.active):hover {
+    color: #bbb;
+}
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.slidemenu{
+  font-family: 'Montserrat', Arial, sans-serif;
+  max-width: 600px;
+  margin: 40px auto 24px auto;
+  overflow: hidden;
+  background: transparent;
+}
+
+.slide-toggle{
+  display: none;
+}
+
+.slidemenu label{
+  width: 33.33%;
+  text-align: center;
+  display: block;
+  float: left;
+  color: #fff;
+  opacity: 0.3;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transition: all 300ms;
+  cursor: pointer;
+}
+
+.slidemenu label span{
+  display: block;
+  padding: 10px 0 6px 0;
+}
+
+.slidemenu .slide-toggle:checked + label{
+  opacity: 1;
+  color: #fff;
+}
+
+.slider{
+  display: none;
+}
+
+.slider .bar{
+  width: 33.33%;
+  height: 4px;
+  background: #fff;
+  border-radius: 5px;
+  transition: all 400ms cubic-bezier(.77,0,.18,1);
+}
+
+.slidemenu #slide-item-1:checked ~ .slider .bar{ margin-left: 0; }
+.slidemenu #slide-item-2:checked ~ .slider .bar{ margin-left: 33.33%; }
+.slidemenu #slide-item-3:checked ~ .slider .bar{ margin-left: 66.66%; }
+
+/* Esconde conteúdo das tabs por padrão */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+#logConsole {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 80px;
+    background: #222;
+    color: #0f0;
+    font-size: 12px;
+    padding: 5px;
+    overflow-y: auto;
+    z-index: 9999;
+    border-top: 1px solid #444;
+}
+
+.instruction-text {
+    font-size: 12px;
+    color: #aaa;
+    margin-bottom: 6px;
+    margin-top: 2px;
+    line-height: 1.4;
 }

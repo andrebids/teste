@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Cartas Postais</title>
     <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
     <div class="main-content">
@@ -11,40 +12,36 @@
             <div class="section-title">Cartas Postais</div>
             <button id="refreshBtn" style="position:absolute;top:8px;right:8px;z-index:10;" title="Recarregar">↻</button>
         </div>
-        
-        <div class="content-section">
-            <div class="section-subtitle">FERRAMENTAS</div>
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="texto">Texto</button>
+            <button class="tab-btn" data-tab="carta">Carta Postal</button>
+            <button class="tab-btn" data-tab="extra">Extra</button>
+        </div>
+        <div class="tab-content active" id="tab-texto">
+            <div class="tools-grid">
+                <div>
+                    <button class="tool-btn" onclick="adicionarTextoPrompt()">1. Adicionar Texto</button>
+                    <div class="instruction-text">2. Mete no tamanho certo e confirma as uniões</div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content" id="tab-carta">
             <div class="tools-grid">
                 <button class="tool-btn" onclick="executarScript()">Importar Arco</button>
-                <button class="tool-btn" onclick="adicionarTextoPrompt()">Adicionar Texto</button>
+                <div class="instruction-text">Importe um arco para criar uma carta postal</div>
+            </div>
+        </div>
+        <div class="tab-content" id="tab-extra">
+            <div class="tools-grid">
+                <!-- Futuras funcionalidades -->
             </div>
         </div>
     </div>
-
     <div id="logConsole"></div>
-
-    <style>
-    #logConsole {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 80px;
-        background: #222;
-        color: #0f0;
-        font-size: 12px;
-        padding: 5px;
-        overflow-y: auto;
-        z-index: 9999;
-        border-top: 1px solid #444;
-    }
-    </style>
-
     <script src="CSInterface.js"></script>
     <script>
         var csInterface = new CSInterface();
         var extensionRoot = csInterface.getSystemPath("extension");
-
         function logMsg(msg) {
             var logDiv = document.getElementById('logConsole');
             if (logDiv) {
@@ -52,37 +49,47 @@
                 logDiv.scrollTop = logDiv.scrollHeight;
             }
         }
-
-        // Carregar o ficheiro de funções ao iniciar o painel (apenas uma vez)
         csInterface.evalScript('$.evalFile("' + extensionRoot + '/jsx/importarFormaBase.jsx")', function(result) {
             logMsg('importarFormaBase.jsx carregado!');
         });
         csInterface.evalScript('$.evalFile("' + extensionRoot + '/jsx/adicionarTexto.jsx")', function(result) {
             logMsg('adicionarTexto.jsx carregado!');
         });
-
         function executarScript() {
             logMsg('A executar importarFormaBase...');
             csInterface.evalScript('importarFormaBase()', function(result) {
                 logMsg('Resultado: ' + result);
             });
         }
-
         function adicionarTextoPrompt() {
             var texto = prompt('Insira o texto a adicionar:');
             if (texto && texto.length > 0) {
                 logMsg('A executar adicionarTextoNoIllustrator...');
-                csInterface.evalScript('adicionarTextoNoIllustrator("' + texto.replace(/"/g, '\\"') + '")', function(result) {
+                csInterface.evalScript('adicionarTextoNoIllustrator("' + texto.replace(/"/g, '\"') + '")', function(result) {
                     logMsg('Resultado: ' + result);
                 });
             } else {
                 logMsg('Ação cancelada ou texto vazio.');
             }
         }
-        
         document.getElementById('refreshBtn').onclick = function() {
             location.reload();
         };
+        // Lógica das abas
+        var tabBtns = document.querySelectorAll('.tab-btn');
+        var tabContents = document.querySelectorAll('.tab-content');
+        for (var i = 0; i < tabBtns.length; i++) {
+            tabBtns[i].onclick = function() {
+                for (var j = 0; j < tabBtns.length; j++) {
+                    tabBtns[j].className = tabBtns[j].className.replace(' active', '');
+                    tabContents[j].className = tabContents[j].className.replace(' active', '');
+                }
+                this.className += ' active';
+                var tab = this.getAttribute('data-tab');
+                var content = document.getElementById('tab-' + tab);
+                if (content) content.className += ' active';
+            };
+        }
     </script>
 </body>
 </html>

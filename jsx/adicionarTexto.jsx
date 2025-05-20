@@ -28,9 +28,9 @@ function adicionarTextoNoIllustrator(texto) {
         }
         var grupo = tf.createOutline();
         grupo.selected = true;
-        // --- Ajuste pós-expand progressivo ---
+        // --- Ajuste pós-expand progressivo com overlaps personalizados ---
         if (grupo.pageItems && grupo.pageItems.length > 1) {
-            // Lista de pares problemáticos para overlap extra
+            // Pares especiais (exceto IN e NI)
             var paresOverlapExtra = {
                 'ER': true, 'RE': true, 'CI': true, 'IC': true, 'EC': true, 'CE': true,
                 'EA': true, 'AE': true, 'CO': true, 'OC': true, 'AT': true, 'TA': true,
@@ -40,11 +40,27 @@ function adicionarTextoNoIllustrator(texto) {
                 'TC': true, 'IT': true, 'TI': true, 'IC': true, 'IL': true, 'LI': true,
                 'IE': true, 'EI': true, 'CA': true, 'AC': true, 'CL': true, 'LC': true,
                 'LO': true, 'OL': true, 'LE': true, 'EL': true, 'NO': true, 'ON': true,
-                'NA': true, 'AN': true, 'NE': true, 'EN': true, 'NI': true, 'IN': true,
-                'RI': true, 'IR': true, 'RA': true, 'AR': true, 'RO': true, 'OR': true,
-                'OA': true, 'AO': true, 'OP': true, 'PO': true, 'PA': true, 'AP': true,
-                'PE': true, 'EP': true, 'PI': true, 'IP': true, 'TO': true, 'OT': true,
-                'TI': true, 'TE': true, 'ET': true
+                'NA': true, 'AN': true, 'NE': true, 'EN': true, 'RI': true, 'IR': true,
+                'RA': true, 'AR': true, 'RO': true, 'OR': true, 'OA': true, 'AO': true,
+                'OP': true, 'PO': true, 'PA': true, 'AP': true, 'PE': true, 'EP': true,
+                'PI': true, 'IP': true, 'TO': true, 'OT': true, 'TI': true, 'TE': true, 'ET': true
+            };
+            // Overlaps personalizados por par
+            var overlapsEspeciais = {
+                'AT': -10,
+                'TA': -10,
+                'VA': -12.5,
+                'AV': -6,
+                'SS': -3,
+                'SA': -4,
+                'PA': -7,
+                'OY': -6,
+                'EC': -3,
+                'IL': -0,
+                'LI': -0,
+                'DI': -2,
+                'DA': -6
+                // Adiciona aqui outros pares conforme necessário
             };
             // Ordenar as letras da esquerda para a direita
             var letras = [];
@@ -60,7 +76,7 @@ function adicionarTextoNoIllustrator(texto) {
                     }
                 }
             }
-            // Aproximação progressiva
+            // Aproximação progressiva com overlaps personalizados
             for (var k = 1; k < letras.length; k++) {
                 var anterior = letras[k-1];
                 var atual = letras[k];
@@ -75,8 +91,10 @@ function adicionarTextoNoIllustrator(texto) {
                 } catch(e) {}
                 var par = letraEsq + letraDir;
                 var overlapMax = 0; // padrão: não sobrepor
-                if (paresOverlapExtra[par]) {
-                    overlapMax = -1; // para pares especiais, permitir até -1pt
+                if (overlapsEspeciais.hasOwnProperty(par)) {
+                    overlapMax = overlapsEspeciais[par];
+                } else if (paresOverlapExtra[par]) {
+                    overlapMax = -1;
                 }
                 // Aproximar até tocar (ou até overlapMax)
                 var step = 0.2;
@@ -88,7 +106,7 @@ function adicionarTextoNoIllustrator(texto) {
                     distancia = esquerdaAtual - direitaAnterior;
                     tentativas++;
                 }
-                // Se for par especial, permitir pequeno overlap
+                // Se for par especial, permitir overlap personalizado
                 if (overlapMax < 0 && distancia > overlapMax) {
                     while (distancia > overlapMax && tentativas < 100) {
                         atual.left -= step;

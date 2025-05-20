@@ -19,6 +19,22 @@ document.addEventListener('DOMContentLoaded', function() {
             location.reload();
         });
 
+        // Alternar abas com botões
+        var tabBtns = document.querySelectorAll('.tab-btn');
+        var tabContents = document.querySelectorAll('.tab-content');
+        for (var i = 0; i < tabBtns.length; i++) {
+            tabBtns[i].onclick = function() {
+                for (var j = 0; j < tabBtns.length; j++) {
+                    tabBtns[j].classList.remove('active');
+                    tabContents[j].classList.remove('active');
+                }
+                this.classList.add('active');
+                var tab = this.getAttribute('data-tab');
+                var content = document.getElementById('tab-' + tab);
+                if (content) content.classList.add('active');
+            };
+        }
+
     } catch(e) {
         console.error('Erro na inicialização:', e);
     }
