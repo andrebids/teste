@@ -57,7 +57,7 @@ function criarLinhaExterior() {
             obj.stroked = true;
             obj.strokeColor = corPreta;
             obj.strokeWidth = 2;
-            obj.strokeJoin = StrokeJoin.ROUNDJOIN;
+            // Não definir strokeJoin
         } else if (obj.typename === 'GroupItem') {
             for (var i = 0; i < obj.pageItems.length; i++) {
                 aplicarStroke(obj.pageItems[i]);
@@ -72,7 +72,11 @@ function criarLinhaExterior() {
     for (var i = 0; i < resultSel.length; i++) {
         aplicarStroke(resultSel[i]);
     }
-    // Opcional: mover para trás
-    grupo.zOrder(ZOrderMethod.SENDTOBACK);
+    // Mover todos os objetos da seleção final para baixo da palavra original
+    var altura = sel.height;
+    var deslocamento = altura + 20;
+    for (var i = 0; i < resultSel.length; i++) {
+        resultSel[i].top = sel.top - deslocamento;
+    }
     return 'Linha exterior criada!';
 } 
