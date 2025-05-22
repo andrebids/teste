@@ -81,16 +81,6 @@ function criarLinhaExterior() {
             break;
         }
     }
-    // Mover todos os elementos do grupo duplicado para baixo
-    var altura = sel.height;
-    var deslocamento = altura + 40;
-    for (var i = 0; i < grupo.pageItems.length; i++) {
-        grupo.pageItems[i].top = grupo.pageItems[i].top - deslocamento;
-    }
-    // Garantir que o grupo dos I's também é movido (caso esteja fora do grupo principal)
-    if (grupoI) {
-        grupoI.top = sel.top - deslocamento;
-    }
     // Apagar o texto original (seleção inicial)
     sel.remove();
     return 'Linha exterior criada!';

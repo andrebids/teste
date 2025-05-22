@@ -1,7 +1,5 @@
 #include 'importarFormaBase.jsx'
 
-alert('main.jsx carregado!');
-
 function runScript() {
     try {
         if (typeof importarFormaBase === 'function') {
