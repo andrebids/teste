@@ -48,7 +48,7 @@ function adicionarTextoNoIllustrator(texto) {
                 'AV': true, 'VA': true, 'AW': true, 'WA': true, 'FA': true, 'AF': true,
                 'LT': true, 'TL': true, 'LA': true, 'AL': true, 'LV': true, 'VL': true,
                 'LY': true, 'YL': true, 'TT': true, 'RT': true, 'TR': true, 'CT': true,
-                'TC': true, 'IT': true, 'IC': true, 'IL': true, 'LI': true,
+                'TC': true, 'IT': true, 'IC': true, 'IL': true,  'LP': true,
                 'IE': true, 'EI': true, 'CA': true, 'AC': true, 'CL': true, 'LC': true,
                 'LO': true, 'OL': true, 'LE': true, 'EL': true, 'NO': true, 'ON': true,
                 'NA': true, 'AN': true, 'NE': true, 'EN': true, 'RI': true, 'IR': true,
@@ -77,7 +77,11 @@ function adicionarTextoNoIllustrator(texto) {
                 'HE': -1,
                 'RG': -2,
                 'GU': -1,
+                'DR': -1,
+                'IA': -1,
                 'ND': -1,
+                'ME': -1,
+                'LI': -1,
                 'TI': -0
                 // Adiciona aqui outros pares conforme necessário
             };

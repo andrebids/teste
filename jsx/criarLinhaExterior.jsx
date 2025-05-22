@@ -61,7 +61,16 @@ function criarLinhaExterior() {
     app.executeMenuCommand('group');
     // Pathfinder Add (primeiro botão do Shape Modes)
     app.executeMenuCommand('Live Pathfinder Add');
+        // Aplicar round cap nos strokes dos itens selecionados
+        var selRound = app.activeDocument.selection;
+        for (var i = 0; i < selRound.length; i++) {
+            var item = selRound[i];
+            if (item.typename === 'PathItem') {
+                item.strokeCap = StrokeCap.ROUNDENDCAP;
+            }
+        }
     app.executeMenuCommand('expandStyle');
+
     app.executeMenuCommand('ungroup');
     // Aplicar stroke cinza nos itens resultantes
     var v_selection = doc.selection;
