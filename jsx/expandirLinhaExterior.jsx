@@ -13,6 +13,7 @@ function expandirLinhaExterior() {
     if (actionFile.exists) {
         app.loadAction(actionFile);
         app.doScript("Expand", "cartas");
+        app.unloadAction("cartas", "");
         return 'Linha exterior expandida via ação!';
     } else {
         alert("Arquivo de ação cartas.aia não encontrado na pasta elementos!");
