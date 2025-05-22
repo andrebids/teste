@@ -69,9 +69,32 @@ function adicionarTextura() {
             }
         }
     }
+    // Mover TEMP_TEXTURA para cima do resultado final
+    var boundsSel = sel.visibleBounds; // [esquerda, topo, direita, fundo]
+    var alturaSel = Math.abs(boundsSel[1] - boundsSel[3]);
+    var margemExtra = 150; // pontos a mais para não ficar colado
+    sel.top = sel.top + (2 * alturaSel) + margemExtra;
+    // Trocar de fill para stroke (recursivo para todos os tipos)
+    function aplicarStroke(obj) {
+        if (obj.typename === 'PathItem') {
+            obj.filled = false;
+            obj.stroked = true;
+            obj.strokeWidth = 10; // grossura do contorno
+        } else if (obj.typename === 'GroupItem') {
+            for (var i = 0; i < obj.pageItems.length; i++) {
+                aplicarStroke(obj.pageItems[i]);
+            }
+        } else if (obj.typename === 'CompoundPathItem') {
+            for (var i = 0; i < obj.pathItems.length; i++) {
+                aplicarStroke(obj.pathItems[i]);
+            }
+        }
+    }
+    aplicarStroke(sel);
+    sel.zOrder(ZOrderMethod.BRINGTOFRONT);
     // Apagar o TEMP_TEXTURA original
-    try {
-        tempTextura.remove();
-    } catch (e) {}
+    // try {
+    //     tempTextura.remove();
+    // } catch (e) {}
     return 'Textura aplicada!';
 } 
