@@ -50,6 +50,27 @@ function criarLinhaExterior() {
     app.executeMenuCommand('Live Pathfinder Add');
     app.executeMenuCommand('expandStyle');
     app.executeMenuCommand('ungroup');
+    // Duplicar o path exterior criado e nomear como TEMP_TEXTURA
+    var tempTextura = null;
+    var tempSel = app.activeDocument.selection;
+    // Procurar o maior path na seleção (normalmente o exterior)
+    var maiorArea = 0;
+    for (var i = 0; i < tempSel.length; i++) {
+        var item = tempSel[i];
+        if (item.typename === 'PathItem' || item.typename === 'CompoundPathItem') {
+            var b = item.geometricBounds;
+            var area = Math.abs((b[2] - b[0]) * (b[1] - b[3]));
+            if (area > maiorArea) {
+                maiorArea = area;
+                tempTextura = item;
+            }
+        }
+    }
+    if (tempTextura) {
+        var copiaTemp = tempTextura.duplicate();
+        copiaTemp.name = 'TEMP_TEXTURA';
+        copiaTemp.selected = false;
+    }
     // Função recursiva robusta para aplicar só stroke
     function aplicarStroke(obj) {
         if (obj.typename === 'PathItem') {

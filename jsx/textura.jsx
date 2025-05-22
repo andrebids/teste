@@ -4,11 +4,25 @@ function adicionarTextura() {
         return 'Sem documento';
     }
     var doc = app.activeDocument;
-    if (doc.selection.length === 0) {
-        alert('Por favor, selecione o stroke exterior!');
-        return 'Nada selecionado';
+    // Procurar o item chamado TEMP_TEXTURA
+    var tempTextura = null;
+    for (var i = 0; i < doc.pageItems.length; i++) {
+        var item = doc.pageItems[i];
+        if ((item.typename === 'PathItem' || item.typename === 'CompoundPathItem') && item.name === 'TEMP_TEXTURA') {
+            tempTextura = item;
+            break;
+        }
     }
-    var sel = doc.selection[0];
+    if (!tempTextura) {
+        alert('TEMP_TEXTURA não encontrada!');
+        return 'TEMP_TEXTURA não encontrada';
+    }
+    // Selecionar apenas TEMP_TEXTURA
+    for (var i = 0; i < doc.pageItems.length; i++) {
+        doc.pageItems[i].selected = false;
+    }
+    tempTextura.selected = true;
+    var sel = tempTextura;
     // Duplicar o stroke
     var duplicado = sel.duplicate();
     duplicado.selected = true;
@@ -55,5 +69,9 @@ function adicionarTextura() {
             }
         }
     }
+    // Apagar o TEMP_TEXTURA original
+    try {
+        tempTextura.remove();
+    } catch (e) {}
     return 'Textura aplicada!';
 } 
