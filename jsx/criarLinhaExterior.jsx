@@ -105,6 +105,19 @@ function criarLinhaExterior() {
     // Não apagar o texto original, pois agora é o mesmo grupo
     // Expandir a linha exterior (Outline Stroke)
     app.executeMenuCommand('OffsetPath v22');
+    // Nomear o grupo final das linhas exteriores
+    var grupoFinal = null;
+    var selecaoAtual = app.activeDocument.selection;
+    for (var i = 0; i < selecaoAtual.length; i++) {
+        if (selecaoAtual[i].typename === 'GroupItem') {
+            grupoFinal = selecaoAtual[i];
+            break;
+        }
+    }
+    if (grupoFinal !== null) {
+        grupoFinal.name = 'LINHA_EXTERIOR';
+    }
+
     // Aplicar apenas stroke cinza em todos os paths selecionados (recursivo)
     function aplicarStrokeCinza(objSel) {
         for (var i = 0; i < objSel.length; i++) {
@@ -128,5 +141,74 @@ function criarLinhaExterior() {
     var v_selection = app.activeDocument.selection;
     aplicarStrokeCinza(v_selection);
     redraw();
+    selecionarGrupoIOutlines();
     return 'Linha exterior criada e expandida!';
+}
+
+function selecionarGrupoIOutlines() {
+    try {
+        if (app.documents.length === 0) {
+            alert('Por favor, abra um documento primeiro!');
+            return;
+        }
+        var doc = app.activeDocument;
+        var grupoEncontrado = null;
+        var grupos = doc.groupItems;
+        for (var i = 0; i < grupos.length; i++) {
+            if (grupos[i].name === 'I_OUTLINES') {
+                grupoEncontrado = grupos[i];
+                break;
+            }
+        }
+        if (grupoEncontrado !== null) {
+            // Selecionar apenas o grupo I_OUTLINES
+            for (var i = 0; i < doc.pageItems.length; i++) {
+                doc.pageItems[i].selected = false;
+            }
+            grupoEncontrado.selected = true;
+            try {
+                app.executeMenuCommand('OffsetPath v22');
+                alert('Outline stroke aplicado com sucesso no grupo I_OUTLINES!');
+            } catch(e) {
+                alert('Erro ao aplicar outline stroke: ' + e);
+            }
+        } else {
+            alert('Grupo I_OUTLINES não encontrado.');
+        }
+    } catch(e) {
+        alert('Erro ao selecionar grupo: ' + e);
+    }
 } 
+    // Selecionar os grupos I_OUTLINES e LINHA_EXTERIOR
+    var grupoIOutlines = null;
+    var grupoLinhaExterior = null;
+    var gruposDoc = doc.groupItems;
+    for (var i = 0; i < gruposDoc.length; i++) {
+        if (gruposDoc[i].name === 'I_OUTLINES') {
+            grupoIOutlines = gruposDoc[i];
+        }
+        if (gruposDoc[i].name === 'LINHA_EXTERIOR') {
+            grupoLinhaExterior = gruposDoc[i];
+        }
+    }
+    // Desmarcar todos
+    for (var i = 0; i < doc.pageItems.length; i++) {
+        doc.pageItems[i].selected = false;
+    }
+    // Selecionar os dois grupos se existirem
+    if (grupoIOutlines !== null) {
+        grupoIOutlines.selected = true;
+    }
+    if (grupoLinhaExterior !== null) {
+        grupoLinhaExterior.selected = true;
+    }
+    // Alerta de sucesso ou insucesso
+    if (grupoIOutlines !== null && grupoLinhaExterior !== null) {
+        alert('Grupos I_OUTLINES e LINHA_EXTERIOR selecionados com sucesso!');
+    } else if (grupoIOutlines === null && grupoLinhaExterior === null) {
+        alert('Nenhum dos grupos I_OUTLINES ou LINHA_EXTERIOR foi encontrado.');
+    } else if (grupoIOutlines === null) {
+        alert('Grupo I_OUTLINES não foi encontrado.');
+    } else if (grupoLinhaExterior === null) {
+        alert('Grupo LINHA_EXTERIOR não foi encontrado.');
+    }

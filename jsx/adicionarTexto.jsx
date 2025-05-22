@@ -28,8 +28,19 @@ function adicionarTextoNoIllustrator(texto) {
         }
         var grupo = tf.createOutline();
         grupo.selected = true;
+        // Criar grupo separado para as letras
+        var grupoLetras = doc.groupItems.add();
+        grupoLetras.name = 'LETRAS_OUTLINE';
+        // Mover todos os itens do grupo original para o novo grupo de letras
+        if (grupo.pageItems && grupo.pageItems.length > 0) {
+            for (var i = grupo.pageItems.length - 1; i >= 0; i--) {
+                grupo.pageItems[i].move(grupoLetras, ElementPlacement.PLACEATEND);
+            }
+        }
+        // Remover o grupo original vazio
+        try { grupo.remove(); } catch(e) {}
         // --- Ajuste pós-expand progressivo com overlaps personalizados ---
-        if (grupo.pageItems && grupo.pageItems.length > 1) {
+        if (grupoLetras.pageItems && grupoLetras.pageItems.length > 1) {
             // Pares especiais (exceto IN e NI)
             var paresOverlapExtra = {
                 'ER': true, 'RE': true, 'CI': true, 'IC': true, 'EC': true, 'CE': true,
@@ -72,8 +83,8 @@ function adicionarTextoNoIllustrator(texto) {
             };
             // Ordenar as letras da esquerda para a direita
             var letras = [];
-            for (var i = 0; i < grupo.pageItems.length; i++) {
-                letras.push(grupo.pageItems[i]);
+            for (var i = 0; i < grupoLetras.pageItems.length; i++) {
+                letras.push(grupoLetras.pageItems[i]);
             }
             for (var i = 0; i < letras.length - 1; i++) {
                 for (var j = i + 1; j < letras.length; j++) {
@@ -127,15 +138,15 @@ function adicionarTextoNoIllustrator(texto) {
             }
         }
         var alturaDesejada = 1600;
-        var alturaAtual = grupo.height; // grupo = o grupo expandido
+        var alturaAtual = grupoLetras.height; // grupoLetras = o grupo expandido
         if (alturaAtual > 0) {
             var fator = alturaDesejada / alturaAtual;
-            grupo.resize(fator * 100, fator * 100); // resize espera percentagem
+            grupoLetras.resize(fator * 100, fator * 100); // resize espera percentagem
         }
         // --- Adicional: criar outlines coloridos para cada 'I' num grupo especial ---
         var letrasParaI = [];
-        for (var i = 0; i < grupo.pageItems.length; i++) {
-            letrasParaI.push(grupo.pageItems[i]);
+        for (var i = 0; i < grupoLetras.pageItems.length; i++) {
+            letrasParaI.push(grupoLetras.pageItems[i]);
         }
         // Ordenar as letras da esquerda para a direita
         for (var i = 0; i < letrasParaI.length - 1; i++) {
