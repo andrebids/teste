@@ -24,19 +24,15 @@
                     <div class="instruction-text">2. Mete no tamanho certo e confirma as uniões</div>
                 </div>
                 <div>
-                    <button class="tool-btn" onclick="criarLinhaExteriorPrompt()">2. Criar Linha Exterior</button>
-                    <div class="instruction-text">Une todas as letras, deixa só o contorno visível e expande o path</div>
-                </div>
-                <div>
-                    <button class="tool-btn" onclick="adicionarTexturaPrompt()">4. Aplicar Textura</button>
-                    <div class="instruction-text">Duplica o stroke e aplica a textura de linhas</div>
+                    <button class="tool-btn" onclick="criarLinhaExteriorPrompt()">2. Criar linhas e textura</button>
+                    <div class="instruction-text">Faz o print exterior e a textura</div>
                 </div>
             </div>
         </div>
         <div class="tab-content" id="tab-carta">
             <div class="tools-grid">
                 <button class="tool-btn" onclick="executarScript()">Importar Arco</button>
-                <div class="instruction-text">Importe um arco para criar uma carta postal</div>
+                <div class="instruction-text">Importa um arco para criar uma carta postal</div>
             </div>
         </div>
         <div class="tab-content" id="tab-extra">
@@ -90,6 +86,13 @@
             logMsg('A executar criarLinhaExterior...');
             csInterface.evalScript('criarLinhaExterior()', function(result) {
                 logMsg('Resultado: ' + result);
+                // Se correu bem, aplicar textura automaticamente
+                if (result === 'Linha exterior criada e expandida!') {
+                    logMsg('A executar adicionarTextura...');
+                    csInterface.evalScript('adicionarTextura()', function(resTextura) {
+                        logMsg('Resultado: ' + resTextura);
+                    });
+                }
             });
         }
         function expandirLinhaExteriorPrompt() {
