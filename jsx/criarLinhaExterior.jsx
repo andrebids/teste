@@ -82,5 +82,30 @@ function criarLinhaExterior() {
         }
     }
     // Não apagar o texto original, pois agora é o mesmo grupo
-    return 'Linha exterior criada!';
+    // Expandir a linha exterior (Outline Stroke)
+    app.executeMenuCommand('OffsetPath v22');
+    // Aplicar apenas stroke cinza em todos os paths selecionados (recursivo)
+    function aplicarStrokeCinza(objSel) {
+        for (var i = 0; i < objSel.length; i++) {
+            var pathRef = objSel[i];
+            if (pathRef.typename == 'GroupItem') {
+                aplicarStrokeCinza(pathRef.pageItems);
+                continue;
+            }
+            if (pathRef.typename == 'CompoundPathItem') {
+                aplicarStrokeCinza(pathRef.pathItems);
+                continue;
+            }
+            if (pathRef.typename == 'PathItem') {
+                pathRef.filled = false;
+                pathRef.stroked = true;
+                pathRef.strokeColor = corTextura;
+                pathRef.strokeWidth = 19.843;
+            }
+        }
+    }
+    var v_selection = app.activeDocument.selection;
+    aplicarStrokeCinza(v_selection);
+    redraw();
+    return 'Linha exterior criada e expandida!';
 } 
