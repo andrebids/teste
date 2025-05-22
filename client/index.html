@@ -28,7 +28,11 @@
                     <div class="instruction-text">Une todas as letras e deixa só o contorno visível</div>
                 </div>
                 <div>
-                    <button class="tool-btn" onclick="adicionarTexturaPrompt()">3. Aplicar Textura</button>
+                    <button class="tool-btn" onclick="expandirLinhaExteriorPrompt()">3. Expandir Linha Exterior</button>
+                    <div class="instruction-text">Executa o comando Expand3 na linha exterior</div>
+                </div>
+                <div>
+                    <button class="tool-btn" onclick="adicionarTexturaPrompt()">4. Aplicar Textura</button>
                     <div class="instruction-text">Duplica o stroke e aplica a textura de linhas</div>
                 </div>
             </div>
@@ -66,6 +70,9 @@
         csInterface.evalScript('$.evalFile("' + extensionRoot + '/jsx/criarLinhaExterior.jsx")', function(result) {
             logMsg('criarLinhaExterior.jsx carregado!');
         });
+        csInterface.evalScript('$.evalFile("' + extensionRoot + '/jsx/expandirLinhaExterior.jsx")', function(result) {
+            logMsg('expandirLinhaExterior.jsx carregado!');
+        });
         csInterface.evalScript('$.evalFile("' + extensionRoot + '/jsx/textura.jsx")', function(result) {
             logMsg('textura.jsx carregado!');
         });
@@ -89,6 +96,12 @@
         function criarLinhaExteriorPrompt() {
             logMsg('A executar criarLinhaExterior...');
             csInterface.evalScript('criarLinhaExterior()', function(result) {
+                logMsg('Resultado: ' + result);
+            });
+        }
+        function expandirLinhaExteriorPrompt() {
+            logMsg('A executar expandirLinhaExterior...');
+            csInterface.evalScript('expandirLinhaExterior()', function(result) {
                 logMsg('Resultado: ' + result);
             });
         }
