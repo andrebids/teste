@@ -88,7 +88,28 @@ function importarFormaBase() {
     }
     ungroupAllDeep(baseLayer);
 
-    alert('Importação, centralização, clipping removido e ungroup TOTAL concluídos!');
+    // Remover o retângulo da artboard
+    function removerRetanguloArtboard(grupo) {
+        var maiorArea = 0;
+        var indexMaior = -1;
+        for (var i = 0; i < grupo.pageItems.length; i++) {
+            var item = grupo.pageItems[i];
+            if (item.typename === 'PathItem') {
+                var b = item.geometricBounds;
+                var area = Math.abs((b[2] - b[0]) * (b[1] - b[3]));
+                if (area > maiorArea) {
+                    maiorArea = area;
+                    indexMaior = i;
+                }
+            }
+        }
+        // Remove o maior path (provavelmente o retângulo da artboard)
+        if (indexMaior >= 0) {
+            try { grupo.pageItems[indexMaior].remove(); } catch(e) {}
+        }
+    }
+    removerRetanguloArtboard(baseLayer);
+
 }
 
 if (typeof $.global !== "undefined") {

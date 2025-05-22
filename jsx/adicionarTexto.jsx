@@ -48,13 +48,14 @@ function adicionarTextoNoIllustrator(texto) {
                 'AV': true, 'VA': true, 'AW': true, 'WA': true, 'FA': true, 'AF': true,
                 'LT': true, 'TL': true, 'LA': true, 'AL': true, 'LV': true, 'VL': true,
                 'LY': true, 'YL': true, 'TT': true, 'RT': true, 'TR': true, 'CT': true,
-                'TC': true, 'IT': true, 'IC': true, 'IL': true,  'LP': true,
+                'TC': true, 'IT': true, 'IC': true, 'IL': true,  'LP': true,'UR': true,
                 'IE': true, 'EI': true, 'CA': true, 'AC': true, 'CL': true, 'LC': true,
                 'LO': true, 'OL': true, 'LE': true, 'EL': true, 'NO': true, 'ON': true,
                 'NA': true, 'AN': true, 'NE': true, 'EN': true, 'RI': true, 'IR': true,
                 'RA': true, 'AR': true, 'RO': true, 'OR': true, 'OA': true, 'AO': true,
                 'OP': true, 'PO': true, 'PA': true, 'AP': true, 'PE': true, 'EP': true,
-                'PI': true, 'IP': true, 'TO': true, 'OT': true, 'TE': true, 'ET': true
+                'PI': true, 'IP': true, 'TO': true, 'OT': true, 'TE': true, 'ET': true,
+                'WO': true
             };
             // Overlaps personalizados por par
             var overlapsEspeciais = {
@@ -79,9 +80,12 @@ function adicionarTextoNoIllustrator(texto) {
                 'GU': -1,
                 'DR': -1,
                 'IA': -1,
+                'OW': -4,
                 'ND': -1,
                 'ME': -1,
+                'OT': -3,
                 'LI': -1,
+                'LO': -3,
                 'TI': -0
                 // Adiciona aqui outros pares conforme necessário
             };
@@ -113,7 +117,7 @@ function adicionarTextoNoIllustrator(texto) {
                     letraDir = textoFinal.charAt(k);
                 } catch(e) {}
                 var par = letraEsq + letraDir;
-                var overlapMax = 0; // padrão: não sobrepor
+                var overlapMax = -1; // padrão: pequena sobreposição
                 if (overlapsEspeciais.hasOwnProperty(par)) {
                     overlapMax = overlapsEspeciais[par];
                 } else if (paresOverlapExtra[par]) {
