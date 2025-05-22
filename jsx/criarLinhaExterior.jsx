@@ -18,8 +18,8 @@ function criarLinhaExterior() {
     corTextura.red = 73;
     corTextura.green = 73;
     corTextura.blue = 73;
-    // Duplicar o grupo para não destruir o original
-    var grupo = sel.duplicate();
+    // Não duplicar o grupo, trabalhar diretamente sobre o selecionado
+    var grupo = sel; // agora grupo é apenas um alias para sel
     grupo.selected = true;
     // Desagrupar tudo dentro do grupo
     function desagruparTudo(gr) {
@@ -72,7 +72,7 @@ function criarLinhaExterior() {
     for (var i = 0; i < resultSel.length; i++) {
         aplicarStroke(resultSel[i]);
     }
-    // Procurar grupo I_OUTLINES dentro do grupo duplicado
+    // Procurar grupo I_OUTLINES dentro do grupo
     var grupoI = null;
     for (var i = 0; i < grupo.pageItems.length; i++) {
         var item = grupo.pageItems[i];
@@ -81,7 +81,6 @@ function criarLinhaExterior() {
             break;
         }
     }
-    // Apagar o texto original (seleção inicial)
-    sel.remove();
+    // Não apagar o texto original, pois agora é o mesmo grupo
     return 'Linha exterior criada!';
 } 
